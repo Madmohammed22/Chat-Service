@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  background: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#messages {
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Chat bubbles */
+.message {
+  padding: 0.6rem 1rem;
+  border-radius: 1.2rem;
+  max-width: 70%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+}
+
+.incoming {
+  background: #ffffff;
+  align-self: flex-start;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.outgoing {
+  background: #4a90e2;
+  color: white;
+  align-self: flex-end;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Chat input bar */
+#form {
+  background: #ffffff;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid #ddd;
+}
+
+#input {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  flex-grow: 1;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+#input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+#form > button {
+  background: #4a90e2;
+  border: none;
+  padding: 0 1.2rem;
+  border-radius: 1.5rem;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#form > button:hover {
+  background: #357ab8;
+}
