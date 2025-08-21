@@ -1,0 +1,24 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node /home/mmad/Desktop/Chat/services/chat-service/backEnd/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madmohammed22/Chat-Service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Madmohammed22/Chat-Service/issues"
+  },
+  "homepage": "https://github.com/Madmohammed22/Chat-Service#readme",
+  "keywords": []
+}
