@@ -4,55 +4,9 @@ const WebSocket = require('ws');
 const fastify = Fastify();
 
 const db = require('./db'); // Import the database module
-function insertMessage(sender, message) {
-  db.run(`
-    INSERT INTO messages (sender, message) VALUES (?, ?)
-  `, [sender, message], function (err) {
-    if (err) {
-      console.error("Message insertion error", err);
-    } else {
-      console.log(`A row has been inserted with rowid ${this.lastID}`);
-    }
-  });
-}
 
-function getMessages(callback) {
-  db.all(`
-    SELECT * FROM messages ORDER BY timestamp ASC
-  `, [], (err, rows) => {
-    if (err) {
-      console.error("Message retrieval error", err);
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
-
-function addReaction(messageId, emoji, user) {
-  db.run(`
-       INSERT INTO reactions (message_id, emoji, user) VALUES (?, ?, ?)
-     `, [messageId, emoji, user], function (err) {
-    if (err) {
-      console.error("Reaction insertion error..", err);
-    } else {  
-      console.log(`Reaction added to message ${messageId} by ${user} with emoji ${emoji}`);
-    }
-  });
-}
-
-function getReactionsForMessage(messageId, callback) {
-  db.all(`
-           SELECT emoji, COUNT(emoji) AS count FROM reactions WHERE message_id = ? GROUP BY emoji
-       `, [messageId], (err, rows) => {
-    if (err) {
-      console.error("Error retrieving reactions:", err);
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
+// Import getMessages and getReactionsForMessage functions
+const { insertMessage, getMessages, getReactionsForMessage, addReaction } = require('./db');
 
 // Register static files first
 fastify.register(require('@fastify/static'), {
@@ -107,15 +61,11 @@ wss.on('connection', ws => {
         const sender = parsedMessage.sender;
         const text = parsedMessage.message;
 
-        db.run(`
-          INSERT INTO messages (sender, message) VALUES (?, ?)
-        `, [sender, text], function (err) {
+        insertMessage(sender, text, (err, messageId) => {
           if (err) {
             console.error("Message insertion error", err);
             return;
           }
-          
-          const messageId = this.lastID;
           console.log(`A row has been inserted with rowid ${messageId}`);
 
           // Send the message with its ID to all clients

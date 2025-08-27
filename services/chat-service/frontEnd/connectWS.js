@@ -98,7 +98,7 @@ function sendReaction(messageId, emoji) {
 function createReactionButtons(messageElement, messageId) {
   const container = document.createElement('div');
   container.className = 'reaction-buttons';
-  const emojis = ['👍', '😂', '❤️', '😮', '😢', '🎉'];
+  const emojis = ['👍', '👎', '😂', '😢', '😤'];
   emojis.forEach((emoji) => {
     const btn = document.createElement('button');
     btn.type = 'button';

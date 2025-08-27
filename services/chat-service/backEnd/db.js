@@ -39,4 +39,28 @@ const db = new sqlite3.Database(dbPath, (err) => {
   });
 });
 
+db.insertMessage = function (sender, message, cb) {
+  db.run(`INSERT INTO messages (sender, message) VALUES (?, ?)`, [sender, message], function (err) {
+    if (cb) cb(err, this ? this.lastID : undefined);
+  });
+};
+
+db.getMessages = function (callback) {
+  db.all(`SELECT * FROM messages ORDER BY timestamp ASC`, [], (err, rows) => {
+    callback(err, rows);
+  });
+};
+
+db.addReaction = function (messageId, emoji, user, cb) {
+  db.run(`INSERT INTO reactions (message_id, emoji, user) VALUES (?, ?, ?)`, [messageId, emoji, user], function (err) {
+    if (cb) cb(err);
+  });
+};
+
+db.getReactionsForMessage = function (messageId, callback) {
+  db.all(`SELECT emoji, COUNT(emoji) AS count FROM reactions WHERE message_id = ? GROUP BY emoji`, [messageId], (err, rows) => {
+    callback(err, rows);
+  });
+};
+
 module.exports = db;
