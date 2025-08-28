@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node /home/mmad/Desktop/Chat/services/chat-service/backEnd/index.js",
+    "start": "node /home/mmad/Desktop/Chat/services/chat-service/backEnd/index.ts",
     "build": "tsc",
     "watch": "tsc -w"
   },

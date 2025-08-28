@@ -1,6 +1,6 @@
 const path = require('path');
 const Fastify = require('fastify');
-const WebSocket = require('ws');
+const NodeWebSocket = require('ws');
 const fastify = Fastify();
 
 const db = require('./db'); // Import the database module
@@ -18,7 +18,7 @@ fastify.get('/', async (request, reply) => {
 });
 
 const server = fastify.server;
-const wss = new WebSocket.Server({ server });
+const wss = new NodeWebSocket.Server({ server });
 
 wss.on('connection', ws => {
   console.log('Client connected');
@@ -66,11 +66,13 @@ wss.on('connection', ws => {
             console.error("Message insertion error", err);
             return;
           }
+
+          
           console.log(`A row has been inserted with rowid ${messageId}`);
 
           // Send the message with its ID to all clients
           wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
+            if (client.readyState === NodeWebSocket.OPEN) {
               client.send(JSON.stringify({
                 type: 'chat',
                 id: messageId,
@@ -94,7 +96,7 @@ wss.on('connection', ws => {
             }
 
             wss.clients.forEach(client => {
-                if (client.readyState === WebSocket.OPEN) {
+                if (client.readyState === NodeWebSocket.OPEN) {
                     client.send(JSON.stringify({
                         type: 'reaction',
                         messageId: messageId,
